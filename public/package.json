@@ -1,0 +1,42 @@
+{
+  "name": "public",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "babel": {
+    "plugins": [
+      "@babel/plugin-syntax-dynamic-import",
+      "@babel/plugin-syntax-import-meta",
+      [
+        "@babel/plugin-proposal-class-properties",
+        {
+          "loose": false
+        }
+      ],
+      "@babel/plugin-proposal-json-strings"
+    ]
+  },
+  "scripts": {
+    "build": "webpack",
+    "build-watch": "webpack --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.1.0",
+    "@babel/core": "^7.1.0",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-json-strings": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-syntax-import-meta": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-stage-3": "^7.0.0",
+    "babel-loader": "^8.0.2",
+    "css-loader": "^1.0.0",
+    "file-loader": "^2.0.0",
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.0"
+  },
+  "dependencies": {}
+}
