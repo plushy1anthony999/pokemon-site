@@ -94,7 +94,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _js_form_validation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/form-validation */ \"./js/form-validation.js\");\n\nObject(_js_form_validation__WEBPACK_IMPORTED_MODULE_0__[\"validateLoginForms\"])();\n\n//# sourceURL=webpack:///./index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _js_form_validation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/form-validation */ \"./js/form-validation.js\");\n\nObject(_js_form_validation__WEBPACK_IMPORTED_MODULE_0__[\"validateLoginForms\"])(); // Register Main ServiceWorker\n\nif (navigator.serviceWorker) {\n  console.log('Browser is compatible with Service Workers');\n  window.addEventListener('load', async () => {\n    try {\n      const registration = await navigator.serviceWorker.register('./js/main-service-worker.js');\n      console.log('Main ServiceWorker has been registered');\n    } catch (err) {\n      console.error(err);\n    }\n  });\n} else console.log('Browser is incompatible with Service Workers');\n\n//# sourceURL=webpack:///./index.js?");
 
 /***/ }),
 

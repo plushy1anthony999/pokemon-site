@@ -5,7 +5,7 @@ router.get('/account-delete', (req, res) => {
 })
 
 router.delete('/account-delete', async (req, res) => {
-
+    
 })
 
 module.exports = router;

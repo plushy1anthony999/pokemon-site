@@ -53,7 +53,7 @@
 					<a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
 					 aria-expanded="false">Dropdown</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown01">
-						<a class="dropdown-item" href="/account-delete">Delete Account</a>
+						<a class="dropdown-item" href="#" data-toggle="modal" data-target="#account-delete-modal">Delete Account</a>
 						<a class="dropdown-item" href="#">Another action</a>
 						<a class="dropdown-item" href="#">Something else here</a>
 					</div>
@@ -69,6 +69,9 @@
 	<main role="main">
 		{{> login-modal}}
 		{{> register-modal}}
+		{{> login-google-modal}}
+		{{> login-twitter-modal}}
+		{{> account-delete-modal}}
 		{{{body}}}
 	</main>
 	
