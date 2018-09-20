@@ -7,6 +7,7 @@ const dashboardRoute = require('./routes/dashboardRoute');
 const {getErrorMessage} = require('./public/js/utils');
 
 const path = require('path');
+const helmet = require('helmet');
 const express = require('express');
 const expressHandleBars = require('express-handlebars');
 const expressValidator = require('express-validator');
@@ -29,6 +30,7 @@ app.engine('handlebars', expressHandleBars({defaultLayout: 'main.layout.handleba
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(helmet({dnsPrefetchControl: true, permittedCrossDomainPolicies: false}));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cookieParser());
