@@ -28,10 +28,25 @@ passport.deserializeUser(async (id, done) => {
 	catch(err) { done(err); }
 })
 
-router.post('/login', passport.authenticate('local', {successRedirect: '/dashboard', failureRedirect: '/', failureFlash: true, successFlash: true}), 
-    (req, res) => {
-        res.redirect('/dashboard');
+// Form POST Authenticates by passing the Request Body to Middleware
+// - On Success, redirects to /dashboard
+// - On Failure, stays on same page and displays an Error Flash Message
+router.post('/login', passport.authenticate('local', {successRedirect: '/dashboard', failureFlash: true, successFlash: true}), (req, res) => {
+    const {username, password} = req.body;
+
+    // Validate Form
+    req.checkBody('username', 'Username is required').notEmpty();
+    req.checkBody('password', 'Password is required').notEmpty();
+
+    const errors = req.validationErrors();
+    if(errors) {
+        console.log(errors);
+        return;
     }
-)
+
+    // Successful Login
+    console.log('Successful Login')
+    res.redirect('/dashboard');
+});
 
 module.exports = router;

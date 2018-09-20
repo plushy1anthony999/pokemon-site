@@ -58,6 +58,7 @@ app.use(expressValidator({
     }
 }));
 
+// Flash Messages for the current Req/Res
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
@@ -66,6 +67,11 @@ app.use((req, res, next) => {
     res.locals.user = req.user || null;
     next();
 });
+
+// Middleware for redirecting to the previous page
+app.use((req, res, next) => {
+    
+})
 
 // Connect to DB. If it doesn't exist, create DB and connect to it.
 mongoose.connect('mongodb://localhost/nodejs-login-system-with-passport', {useNewUrlParser: true}); 

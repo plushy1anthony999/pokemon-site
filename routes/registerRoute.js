@@ -2,12 +2,9 @@ const {createUser} = require('../models/user');
 const {getErrorMessage} = require('../public/js/utils');
 const router = require('express').Router();
 
-// router.get('/register', async (req, res) => {
-//     res.render('index');
-// })
 
 router.post('/register', async (req, res, done) => {
-    const {name, username, email, password} = req.body;
+    const {name, username, email, password} = req.body; 
 
     // Validate Form
     req.checkBody('name', 'Name is required').notEmpty();
@@ -19,7 +16,7 @@ router.post('/register', async (req, res, done) => {
     req.checkBody('confirm-password', 'Password and Confirm Password don\'t match').equals(password);
 
     const errors = req.validationErrors();
-    if(errors) return res.render('index', {errors});
+    if(errors) return res.render('index', {message: errors});
 
     try {
         // Creates and Adds the newly Registered User to the DB
