@@ -1,6 +1,8 @@
 const CACHE_NAME = 'Version 0.1';
 const PREFETCHED_ASSETS = [
-    
+    './dist/bundle.js',
+    './css/carousel.css',
+    './index.css'
 ];
 
 // Event fires if this is the first time the ServiceWorker has been

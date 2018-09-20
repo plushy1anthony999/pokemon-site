@@ -10,6 +10,7 @@ const path = require('path');
 const crypto = require('crypto');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const favicon = require('serve-favicon');
 const express = require('express');
 const expressHandleBars = require('express-handlebars');
 const expressValidator = require('express-validator');
@@ -34,6 +35,7 @@ app.set('view engine', 'handlebars');
 app.engine('handlebars', expressHandleBars({defaultLayout: 'main.layout.handlebars'}));
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.use(helmet({
     dnsPrefetchControl: true, 
