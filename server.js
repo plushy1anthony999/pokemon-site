@@ -7,7 +7,9 @@ const dashboardRoute = require('./routes/dashboardRoute');
 const {getErrorMessage} = require('./public/js/utils');
 
 const path = require('path');
+const crypto = require('crypto');
 const helmet = require('helmet');
+const morgan = require('morgan');
 const express = require('express');
 const expressHandleBars = require('express-handlebars');
 const expressValidator = require('express-validator');
@@ -22,6 +24,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const app = express();
 
+app.set('port', process.env.PORT || 3000);
+
 
 // Setup Handlebars as View Engine
 app.set('views', path.join(__dirname, 'views'));
@@ -30,7 +34,12 @@ app.engine('handlebars', expressHandleBars({defaultLayout: 'main.layout.handleba
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(helmet({dnsPrefetchControl: true, permittedCrossDomainPolicies: false}));
+app.use(helmet({
+    dnsPrefetchControl: true, 
+    permittedCrossDomainPolicies: false, 
+    expectCt: {enforce: false, maxAge: 60 * 60 * 24, reportUri: `https://localhost:${app.get('port')}/report-expect-ct`}
+}));
+app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -42,7 +51,8 @@ app.use(passport.session());
 
 // Express Session
 app.use(expressSession({
-    secret: 'secret',
+    name: crypto.randomBytes(20).toString('ascii'),
+    secret: crypto.randomBytes(4096).toString('base64'),
     saveUninitialized: true,
     resave: true
 }));
@@ -70,11 +80,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Middleware for redirecting to the previous page
-app.use((req, res, next) => {
-    
-})
-
 // Connect to DB. If it doesn't exist, create DB and connect to it.
 mongoose.connect('mongodb://localhost/nodejs-login-system-with-passport', {useNewUrlParser: true}); 
 
@@ -84,7 +89,7 @@ app.use(indexRoute, loginRoute, registerRoute, logoutRoute, dashboardRoute);
 // Error Routes (for handling unknown pages and other HTTP Errors)
 app.use(http404ErrorRoute, httpErrorRoute)
 
-app.set('port', process.env.PORT || 3000);
+
 app.listen(app.get('port'), () => {
     console.log(`Listening on Port ${app.get('port')}`);
 })
