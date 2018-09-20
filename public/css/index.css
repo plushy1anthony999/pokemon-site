@@ -13,11 +13,23 @@
 .btn-submit:hover::after {
     opacity: 1;
 }
-
 .cancel-icon {
     cursor: pointer;
 }
-
 .alert-message {
     margin-top: 1rem;
+}
+
+
+a[data-target="#login-google-modal"] i.fab.fa-google {
+    color: rgba(66, 133, 244, .75);
+}
+a[data-target="#login-google-modal"]:hover i.fab.fa-google{
+    color: rgba(66, 133, 244, 1);
+}
+a[data-target="#login-twitter-modal"] i.fab.fa-twitter {
+    color: rgba(29, 161, 242, .75);
+}
+a[data-target="#login-twitter-modal"]:hover i.fab.fa-twitter {
+    color: rgba(29, 161, 242, 1);
 }

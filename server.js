@@ -24,6 +24,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const app = express();
 
+const PROTOCOL = 'http';
 app.set('port', process.env.PORT || 3000);
 
 
@@ -37,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet({
     dnsPrefetchControl: true, 
     permittedCrossDomainPolicies: false, 
-    expectCt: {enforce: false, maxAge: 60 * 60 * 24, reportUri: `https://localhost:${app.get('port')}/report-expect-ct`}
+    expectCt: {enforce: false, maxAge: 60 * 60 * 24, reportUri: `${PROTOCOL}://localhost:${app.get('port')}/report-expect-ct`}
 }));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -54,7 +55,12 @@ app.use(expressSession({
     name: crypto.randomBytes(20).toString('ascii'),
     secret: crypto.randomBytes(4096).toString('base64'),
     saveUninitialized: true,
-    resave: true
+    resave: true,
+    cookie: {
+        secure: true,
+        httpOnly: true,
+        domain: `${PROTOCOL}://localhost:${app.get('port')}`
+    }
 }));
 
 // Express Validator
@@ -76,7 +82,7 @@ app.use((req, res, next) => {
     res.locals.error_msg = req.flash('error_msg');
     res.locals.error = req.flash('error');      // error message set by Passport
     res.locals.success = req.flash('success');  // success message set by Passport
-    res.locals.user = req.user || null;
+    // res.locals.user = req.user || null;
     next();
 });
 
@@ -87,9 +93,9 @@ mongoose.connect('mongodb://localhost/nodejs-login-system-with-passport', {useNe
 app.use(indexRoute, loginRoute, registerRoute, logoutRoute, dashboardRoute);
 
 // Error Routes (for handling unknown pages and other HTTP Errors)
-app.use(http404ErrorRoute, httpErrorRoute)
+app.use(http404ErrorRoute, httpErrorRoute);
 
 
-app.listen(app.get('port'), () => {
+const server = app.listen(app.get('port'), () => {
     console.log(`Listening on Port ${app.get('port')}`);
-})
+});
