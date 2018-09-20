@@ -1,7 +1,10 @@
-const crypto = require('crypto');
+const CACHE_NAME = 'Version 0.1';
+const PREFETCHED_ASSETS = [
+    
+];
 
-const CACHE_NAME = crypto.randomBytes(64).toString('base64');
-
+// Event fires if this is the first time the ServiceWorker has been
+// downloaded, or when there's an updated ServiceWorker
 self.addEventListener('install', event => {
     console.log('Main ServiceWorker has been installed');
 });
@@ -16,7 +19,7 @@ self.addEventListener('activate', event => {
                 console.log(`Deleting the Cache: ${name}`);
                 return caches.delete(name);
             }
-        }))
+        }));
     }));
 })
 
