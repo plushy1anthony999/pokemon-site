@@ -1,9 +1,4 @@
-const indexRoute = require('./routes/indexRoute');
-const loginRoute = require('./routes/loginRoute');
-const registerRoute = require('./routes/registerRoute');
-const logoutRoute = require('./routes/logoutRoute');
-const {http404ErrorRoute, httpErrorRoute} = require('./routes/errorRoute');
-const dashboardRoute = require('./routes/dashboardRoute');
+const routes = require('./routes');
 const {getErrorMessage} = require('./public/js/utils');
 
 const path = require('path');
@@ -28,14 +23,14 @@ const app = express();
 const PROTOCOL = 'http';
 app.set('port', process.env.PORT || 3000);
 
-
 // Setup Handlebars as View Engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
-app.engine('handlebars', expressHandleBars({defaultLayout: 'main.layout.handlebars'}));
+app.engine('handlebars', expressHandleBars({defaultLayout: 'main-layout.handlebars'}));
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
 
 app.use(helmet({
     dnsPrefetchControl: true, 
@@ -54,8 +49,8 @@ app.use(passport.session());
 
 // Express Session
 app.use(expressSession({
-    name: crypto.randomBytes(20).toString('ascii'),
-    secret: crypto.randomBytes(4096).toString('base64'),
+    name: "crypto.randomBytes(20).toString('ascii')",
+    secret: "crypto.randomBytes(4096).toString('base64')", // TODO: replace w/ Environment Variable
     saveUninitialized: true,
     resave: true,
     cookie: {
@@ -91,12 +86,7 @@ app.use((req, res, next) => {
 // Connect to DB. If it doesn't exist, create DB and connect to it.
 mongoose.connect('mongodb://localhost/nodejs-login-system-with-passport', {useNewUrlParser: true}); 
 
-// Set up Routes
-app.use(indexRoute, loginRoute, registerRoute, logoutRoute, dashboardRoute);
-
-// Error Routes (for handling unknown pages and other HTTP Errors)
-app.use(http404ErrorRoute, httpErrorRoute);
-
+app.use(...routes);
 
 const server = app.listen(app.get('port'), () => {
     console.log(`Listening on Port ${app.get('port')}`);

@@ -3,7 +3,7 @@ import {validateLoginForms} from './js/form-validation';
 validateLoginForms();
 
 // Register Main ServiceWorker
-if(navigator.serviceWorker) {
+if('serviceWorker' in navigator) {
     console.log('Browser is compatible with Service Workers');
     window.addEventListener('load', async () => {
         try {
