@@ -2,7 +2,6 @@ const routes = require('./routes');
 const {getErrorMessage} = require('./public/js/utils');
 
 const path = require('path');
-const crypto = require('crypto');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const favicon = require('serve-favicon');

@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
+const {PASSWORD_VALDATION_REGEX, EMAIL_VALIDATION_REGEX} = require('../utils');
 
 const User = mongoose.model('User', mongoose.Schema({
-    username: 	{type: String, index: true},
-    password: 	{type: String},
-	email:		{type: String},
-	name:		{type: String}
+    username: 	{type: String, required: true, index: true},
+    password: 	{type: String, required: true, match: PASSWORD_VALDATION_REGEX},
+	email:		{type: String, required: true, match: EMAIL_VALIDATION_REGEX, lowercase: true, trim: true, unique: true},
+	name:		{type: String, required: true, lowercase: true, trim: true},
+	registrationDate: {type: Data, default: Date.now}
 }));
 
 User.prototype.validatePassword = async function(candidatePassword) {
