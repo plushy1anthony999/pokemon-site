@@ -1,7 +1,8 @@
-const {User} = require('../models/user');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const router = require('express').Router();
+const {User} = require('../models/user');
+const loginController = require('../controllers/login-controller');
 
 passport.use(new LocalStrategy(async (username, password, done) => {
     try {
@@ -26,6 +27,10 @@ passport.deserializeUser(async (id, done) => {
 		done(null, user);
 	}
 	catch(err) { done(err); }
+})
+
+router.get('/login', (req, res) => {
+    res.send('Not implemented');
 })
 
 // Form POST Authenticates by passing the Request Body to Middleware
