@@ -1,4 +1,4 @@
-const {createUser} = require('../models/user');
+const User = require('../models/user');
 const {getErrorMessage} = require('../public/js/utils');
 const router = require('express').Router();
 
@@ -20,7 +20,7 @@ router.post('/register', async (req, res, done) => {
 
     try {
         // Creates and Adds the newly Registered User to the DB
-        await createUser({name, username, email, password});
+        await User.create({name, username, email, password});
     }
     catch(err) {
         console.error(`"POST ${req.originalUrl}" HTTP Error:\n${err.stack}`);
